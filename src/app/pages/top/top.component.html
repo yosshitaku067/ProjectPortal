@@ -1,0 +1,49 @@
+<div class="container">
+  <h1 class="title-space">
+    {{ title }}
+  </h1>
+
+  <div class="box notify-message" *ngIf="notifyMessage.length > 0">
+    <span class="text">{{ notifyMessage }}</span>
+    <span class="material-icons" (click)="notifyMessage = ''"> close </span>
+  </div>
+
+  <div id="purpose" class="title-space">
+    <h2 class="mat-h2">プロジェクト目標</h2>
+    <p class="body-1">{{ projectPurpose }}</p>
+  </div>
+
+  <div id="items" class="title-space">
+    <h2 class="mat-h2">リンク</h2>
+  </div>
+  <div id="item-lists">
+    <div class="item-list box inset" *ngFor="let item of items">
+      <h3 class="name box">{{ item.name }}</h3>
+      <ul class="list box">
+        <li *ngFor="let child of item.children">
+          <a [href]="child.url" target="_blank">{{ child.name }}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="images-title" class="title-space">
+    <h2 class="mat-h2">各種イメージ</h2>
+  </div>
+  <div id="images">
+    <div id="image-name-list" class="box inset">
+      <ul>
+        <li
+          [ngClass]="{ selected: selectedImageIndex === i }"
+          *ngFor="let image of images; let i = index"
+          (click)="selectedImageIndex = i"
+        >
+          {{ image.name }}
+        </li>
+      </ul>
+    </div>
+    <div id="image-box" class="box">
+      <img [src]="images[selectedImageIndex].url" />
+    </div>
+  </div>
+</div>
