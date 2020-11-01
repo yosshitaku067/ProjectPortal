@@ -1,4 +1,62 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+
+class SiteDatas {
+  private _title = '';
+  get title() {
+    return this._title;
+  }
+  private _projectPurpose = '';
+  get projectPurpose() {
+    return this._projectPurpose;
+  }
+  private _notifyMessage = '';
+  get notifyMessage() {
+    return this._notifyMessage;
+  }
+  private _items: {
+    name: string;
+    children: {
+      name: string;
+      url: string;
+    }[];
+  }[] = [];
+  get items() {
+    return this._items;
+  }
+  private _images: {
+    name: string;
+    url: string;
+  }[] = [];
+  get images() {
+    return this._images;
+  }
+
+  constructor() {}
+
+  fromJson(props: {
+    title: string;
+    projectPurpose: string;
+    notifyMessage: string;
+    items: {
+      name: string;
+      children: {
+        name: string;
+        url: string;
+      }[];
+    }[];
+    images: {
+      name: string;
+      url: string;
+    }[];
+  }) {
+    this._title = props.title;
+    this._projectPurpose = props.projectPurpose;
+    this._notifyMessage = props.notifyMessage;
+    this._images = props.images;
+    this._items = props.items;
+  }
+}
 
 @Component({
   selector: 'app-top',
@@ -6,107 +64,27 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./top.component.scss'],
 })
 export class TopComponent implements OnInit {
-  title = 'Project Portals';
-  projectPurpose =
-    '来年度の売上30%向上目標を達成するための営業支援システムの刷新。\n2020年度上期中に要件定義・基本設計を実施。\n2020年度下期でシステム構築及びテストを実施し、2021年4月にサービスイン。';
-  notifyMessage = '各機能担当は週末16:30までに進捗情報の更新をお願いいたします。';
-
-  items = [
-    {
-      name: 'Repositories',
-      children: [
-        {
-          name: 'Web Frontend',
-          url: '',
-        },
-        {
-          name: 'Web Backend',
-          url: '',
-        },
-        {
-          name: 'Mobile iOS',
-          url: '',
-        },
-        {
-          name: 'Mobile Android',
-          url: '',
-        },
-      ],
-    },
-    {
-      name: 'Document',
-      children: [
-        {
-          name: 'Requirement',
-          url: '',
-        },
-        {
-          name: 'System Configuration Diaram',
-          url: '',
-        },
-        {
-          name: 'Site Designs',
-          url: '',
-        },
-      ],
-    },
-    {
-      name: 'Tools',
-      children: [
-        {
-          name: 'Jira',
-          url: '',
-        },
-        {
-          name: 'Confluence',
-          url: '',
-        },
-        {
-          name: 'GitLab',
-          url: '',
-        },
-        {
-          name: 'RocketChat',
-          url: '',
-        },
-      ],
-    },
-    {
-      name: 'Datas',
-      children: [
-        {
-          name: 'Daily Progress Report',
-          url: '',
-        },
-        {
-          name: 'Testing Report',
-          url: '',
-        },
-        {
-          name: 'Project Datas',
-          url: '',
-        },
-      ],
-    },
-  ];
-
-  images: { name: string; url: string }[] = [
-    {
-      name: 'sample image 01',
-      url: 'assets/img/image-01.jpg',
-    },
-    {
-      name: 'sample image 02',
-      url: 'assets/img/image-02.jpg',
-    },
-    {
-      name: 'sample image 03',
-      url: 'assets/img/image-03.jpg',
-    },
-  ];
+  siteData = new SiteDatas();
   selectedImageIndex = 0;
+  showNotifyMessage = false;
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.http
+      .get('/assets/datas.json')
+      .toPromise()
+      .then((json: any) => {
+        this.siteData.fromJson(json);
+
+        if (this.siteData.notifyMessage.length > 0) {
+          this.showNotifyMessage = true;
+        }
+      })
+      .catch((err) => window.alert(err));
+  }
+
+  hideNotifyMessage() {
+    this.showNotifyMessage = false;
+  }
 }

@@ -1,23 +1,23 @@
 <div class="container">
   <h1 class="title-space">
-    {{ title }}
+    {{ siteData.title }}
   </h1>
 
-  <div class="box notify-message" *ngIf="notifyMessage.length > 0">
-    <span class="text">{{ notifyMessage }}</span>
-    <span class="material-icons" (click)="notifyMessage = ''"> close </span>
+  <div class="box notify-message" *ngIf="showNotifyMessage">
+    <span class="text">{{ siteData.notifyMessage }}</span>
+    <span class="material-icons" (click)="hideNotifyMessage()"> close </span>
   </div>
 
   <div id="purpose" class="title-space">
     <h2 class="mat-h2">プロジェクト目標</h2>
-    <p class="body-1">{{ projectPurpose }}</p>
+    <p class="body-1">{{ siteData.projectPurpose }}</p>
   </div>
 
   <div id="items" class="title-space">
     <h2 class="mat-h2">リンク</h2>
   </div>
   <div id="item-lists">
-    <div class="item-list box inset" *ngFor="let item of items">
+    <div class="item-list box inset" *ngFor="let item of siteData.items">
       <h3 class="name box">{{ item.name }}</h3>
       <ul class="list box">
         <li *ngFor="let child of item.children">
@@ -35,7 +35,7 @@
       <ul>
         <li
           [ngClass]="{ selected: selectedImageIndex === i }"
-          *ngFor="let image of images; let i = index"
+          *ngFor="let image of siteData.images; let i = index"
           (click)="selectedImageIndex = i"
         >
           {{ image.name }}
@@ -43,7 +43,7 @@
       </ul>
     </div>
     <div id="image-box" class="box">
-      <img [src]="images[selectedImageIndex].url" />
+      <img [src]="siteData.images[selectedImageIndex]?.url" />
     </div>
   </div>
 </div>
