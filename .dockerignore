@@ -1,0 +1,8 @@
+.dockerignore
+.git
+dist
+*Dockerfile*
+*docker-compose*
+/app/angular/node_modules
+/app/angular/dist
+npm-debug.log

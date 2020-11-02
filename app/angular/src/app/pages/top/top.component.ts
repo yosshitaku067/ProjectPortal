@@ -72,7 +72,7 @@ export class TopComponent implements OnInit {
 
   ngOnInit(): void {
     this.http
-      .get('/assets/datas.json')
+      .get('assets/datas.json')
       .toPromise()
       .then((json: any) => {
         this.siteData.fromJson(json);

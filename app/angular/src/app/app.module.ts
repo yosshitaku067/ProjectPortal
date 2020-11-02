@@ -7,10 +7,11 @@ import { AppComponent } from './app.component';
 import { TopComponent } from './pages/top/top.component';
 
 import { FormsModule } from '@angular/forms';
+import { ScullyLibModule } from '@scullyio/ng-lib';
 
 @NgModule({
   declarations: [AppComponent, TopComponent],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
+  imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule, ScullyLibModule],
   providers: [],
   bootstrap: [AppComponent],
 })
